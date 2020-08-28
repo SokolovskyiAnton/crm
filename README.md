@@ -1,4 +1,4 @@
-# crm
+# CRM-система на Vue.js
 
 ## Project setup
 ```
