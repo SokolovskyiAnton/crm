@@ -10,10 +10,10 @@
               type="text"
               v-model="email"
           >
-          <div v-if="!$v.email.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+          <div v-if="$v.email.$dirty && !$v.email.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Введите адрес электронной почты.
           </div>
-          <div v-if="!$v.email.email" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+          <div v-if="$v.email.$dirty && !$v.email.email" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Адрес электронной почты введен некорректно.
           </div>
           <label for="email">Электронный адрес</label>
@@ -27,10 +27,10 @@
               type="password"
               v-model="password"
           >
-          <div v-if="!$v.password.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+          <div v-if="$v.password.$dirty && !$v.password.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Введите пароль.
           </div>
-          <div v-if="!$v.password.minLength" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+          <div v-if="$v.password.$dirty && !$v.password.minLength" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Пароль должен состоять минимум из 6 символов.
           </div>
           <label for="password">Пароль</label>
@@ -59,6 +59,8 @@
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
+import messages from '../utils/messages'
+
 export default {
   data() {
     return {
@@ -71,13 +73,20 @@ export default {
       password: { required, minLength: minLength(6) }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       const formData = {
         email: this.email,
         password: this.password
       }
-      console.log(formData);
-      this.$router.push('/')
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
+      } catch(e) {}
+    }
+  },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message])
     }
   },
   computed: {

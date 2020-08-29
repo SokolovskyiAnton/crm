@@ -1,5 +1,5 @@
 <template>
-    <form class="card auth-card">
+    <form class="card auth-card" @submit.prevent="onSubmit">
         <div class="card-content">
           <span class="card-title">Домашняя бухгалтерия</span>
           <div class="input-field">
@@ -11,10 +11,10 @@
                 v-model="email"
             >
             <label for="email">Электронный адрес</label>
-            <div v-if="!$v.email.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+            <div v-if="$v.email.$dirty && !$v.email.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Введите адрес электронной почты.
             </div>
-            <div v-if="!$v.email.email" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+            <div v-if="$v.email.$dirty && !$v.email.email" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                   Адрес электронной почты введен некорректно.
             </div>
           </div>
@@ -27,33 +27,28 @@
                 v-model="password"
             >
             <label for="password">Пароль</label>
-            <div v-if="!$v.password.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+            <div v-if="$v.password.$dirty && !$v.password.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Введите пароль.
             </div>
-            <div v-if="!$v.password.minLength" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+            <div v-if="$v.password.$dirty && !$v.password.minLength" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                   Пароль должен состоять минимум из 6 символов.
             </div>
           </div>
           <div class="input-field">
             <input
                 @blur="$v.name.$touch()"
-                :class="{invalid: $v.password.$error}" 
+                :class="{invalid: $v.name.$error}" 
                 id="name"
                 type="text"
                 v-model="name"
             >
-            <div v-if="!$v.name.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
+            <div v-if="$v.name.$dirty && !$v.name.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
                 Введите имя.
             </div>
             <label for="name">Имя</label>
 
           </div>
-          <p>
-            <label>
-              <input type="checkbox" />
-              <span>С правилами согласен</span>
-            </label>
-          </p>
+          
         </div>
         <div class="card-action">
           <div>
@@ -69,7 +64,7 @@
       
           <p class="center">
             Уже есть аккаунт?
-            <router-link to="/login">Войти!</router-link>
+            <router-link to="/login">Нажмите здесь</router-link>
           </p>
         </div>
     </form>
@@ -92,13 +87,16 @@ export default {
       name: { required }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       const formData = {
         email: this.email,
         password: this.password,
         name: this.name
       }
-      this.$router.push('/')
+      try {
+        await this.$store.dispatch('register', formData)
+        this.$router.push('/')
+      } catch(e) {}
     }
   },
   computed: {
