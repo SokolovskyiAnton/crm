@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    error: null
+    error: null,
+    info: {}
   },
   mutations: {
     setError(state, error) {
@@ -14,6 +15,12 @@ export default new Vuex.Store({
     },
     clearError(state) {
       state.error = null
+    },
+    setInfo(state, info) {
+      state.info = info
+    },
+    clearInfo(state) {
+      state.info = {}
     }
   },
   actions: {
@@ -43,11 +50,23 @@ export default new Vuex.Store({
 
       return user ? user.uid : null
     },
-    async logout() {
+    async logout({commit}) {
       await firebase.auth().signOut()
+      commit('clearInfo')
+    },
+    async fetchInfo({dispatch, commit}) {
+      try {
+        const uid = await dispatch('getUid')
+        const info = (await (firebase.database().ref(`/users/${uid}/info`).once('value'))).val()
+        commit('setInfo', info)
+      } catch(e) {
+
+      }
+    
     }
   },
   getters: {
-    error: s => s.error
+    error: s => s.error,
+    info: s => s.info
   }
 })
