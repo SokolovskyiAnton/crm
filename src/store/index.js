@@ -68,6 +68,16 @@ export default new Vuex.Store({
       const key = process.env.VUE_APP_FIXER
       const res = await fetch(`http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,UAH`)
       return await res.json()
+    },
+    async createCategory({dispatch,commit}, {title, limit}) {
+      try {
+        const uid = await dispatch('getUid')
+        const category = await firebase.database().ref(`/users/${uid}/categories`).push({title, limit})
+        return {title, limit, id: category.key}
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
     }
   },
   getters: {

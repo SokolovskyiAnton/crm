@@ -15,9 +15,14 @@
             </thead>
 
             <tbody>
-            <tr v-for="cur in currencies" :key="cur.id">
-              <td>{{cur}}</td>
-              <td>{{rates[cur]}}</td>
+            <tr>
+              <td>{{currencies[1]}}</td>
+              <td>{{eur}}</td>
+              <td>{{date}}</td>
+            </tr>
+            <tr>
+              <td>{{currencies[2]}}</td>
+              <td>{{usd}}</td>
               <td>{{date}}</td>
             </tr>
             </tbody>
@@ -34,7 +39,17 @@
         currencies: ['UAH', 'EUR', 'USD']
       }
     },
-    props: ['rates', 'date']
+    props: ['rates', 'date'],
+    computed: {
+      usd() {
+        const usd = this.eur/this.rates.USD
+        return usd.toFixed(2)
+      },
+      eur() {
+        const eur = this.rates.EUR*this.rates.UAH
+        return eur.toFixed(2)
+      }
+    }
   }
 </script>
 

@@ -13,8 +13,8 @@ export default {
         }
     },
     watch: {
-        error(fbError) {
-            this.$error(messages[fbError.code] || 'Что-то пошло не так')
+        error(err) {
+            this.$error(messages[err.code] || 'Что-то пошло не так')
         }
     }
 }

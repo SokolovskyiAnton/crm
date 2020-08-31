@@ -4,7 +4,7 @@
         <span class="card-title">Домашняя бухгалтерия</span>
         <div class="input-field">
           <input
-              @blur="$v.email.$touch()" 
+              
               :class="{invalid: $v.email.$error}" 
               id="email"
               type="text"
@@ -21,7 +21,7 @@
         </div>
         <div class="input-field">
           <input
-              @blur="$v.password.$touch()"
+              
               :class="{invalid: $v.password.$error}" 
               id="password"
               type="password"
@@ -41,7 +41,7 @@
           <button
               class="btn waves-effect waves-light auth-submit"
               type="submit"
-              :disabled="disabledBtn1"
+              
           >
             Войти
             <i class="material-icons right">send</i>
@@ -74,6 +74,10 @@ export default {
   },
   methods: {
     async onSubmit() {
+      if (this.$v.$invalid) {
+          this.$v.$touch()
+          return
+        }
       const formData = {
         email: this.email,
         password: this.password
@@ -87,12 +91,6 @@ export default {
   mounted() {
     if (messages[this.$route.query.message]) {
       this.$message(messages[this.$route.query.message])
-    }
-  },
-  computed: {
-     disabledBtn1() {
-      return this.$v.email.$invalid ||
-      this.$v.password.$invalid 
     }
   }
 }

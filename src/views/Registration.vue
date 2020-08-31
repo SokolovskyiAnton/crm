@@ -4,7 +4,6 @@
           <span class="card-title">Домашняя бухгалтерия</span>
           <div class="input-field">
             <input
-                @blur="$v.email.$touch()" 
                 :class="{invalid: $v.email.$error}" 
                 id="email"
                 type="text"
@@ -20,7 +19,6 @@
           </div>
           <div class="input-field">
             <input
-                @blur="$v.password.$touch()"
                 :class="{invalid: $v.password.$error}" 
                 id="password"
                 type="password"
@@ -36,7 +34,6 @@
           </div>
           <div class="input-field">
             <input
-                @blur="$v.name.$touch()"
                 :class="{invalid: $v.name.$error}" 
                 id="name"
                 type="text"
@@ -55,7 +52,6 @@
             <button
                 class="btn waves-effect waves-light auth-submit"
                 type="submit"
-                :disabled="disabledBtn2"
             >
               Зарегистрироваться
               <i class="material-icons right">send</i>
@@ -88,6 +84,10 @@ export default {
   },
   methods: {
     async onSubmit() {
+      if (this.$v.$invalid) {
+          this.$v.$touch()
+          return
+        }
       const formData = {
         email: this.email,
         password: this.password,
@@ -97,13 +97,6 @@ export default {
         await this.$store.dispatch('register', formData)
         this.$router.push('/')
       } catch(e) {}
-    }
-  },
-  computed: {
-     disabledBtn2() {
-      return this.$v.email.$invalid ||
-      this.$v.password.$invalid ||
-      this.$v.name.$invalid 
     }
   }
 }
