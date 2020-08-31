@@ -4,7 +4,7 @@
       <div class="card-content white-text">
         <span class="card-title">Счет в валюте</span>
         <p class="currency-line" v-for="cur in currencies" :key="cur.id">
-          <span>{{getCurrency(cur) | currency(cur)}}</span>
+          <span>{{getCurrency(cur) | currency(cur)}}</span> <!--фильтр добавляет иконку валюты-->
         </p>
       </div>
     </div>
@@ -15,18 +15,18 @@
   export default {
     data() {
       return {
-        currencies: ['UAH', 'EUR', 'USD']
+        currencies: ['UAH', 'EUR', 'USD'] // ключи этого массива и кличи массива rates совпадают
       }
     },
-    props: ['rates'],
+    props: ['rates'], // валюты
     computed: {
       base() {
-        return this.$store.getters.info.bill / (this.rates['UAH'] / this.rates['EUR'])
+        return this.$store.getters.info.bill / (this.rates['UAH'] / this.rates['EUR']) // получение общей суммы в евро
       }
     },
     methods: {
       getCurrency(currency) {
-        return Math.floor(this.base * this.rates[currency])
+        return Math.floor(this.base * this.rates[currency]) // получение суммы в usd and eur 
       }
     }
   }

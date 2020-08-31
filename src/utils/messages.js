@@ -1,4 +1,4 @@
-export default {
+export default { // сообщения об ошибках от firebase
     'logout': 'Вы вышли из системы',
     'auth/user-not-found': 'Пользователь не найден',
     'auth/wrong-password': 'Неправильный пароль',

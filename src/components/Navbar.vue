@@ -1,11 +1,11 @@
 <template>
     <nav class="navbar orange lighten-1">
         <div class="nav-wrapper">
-            <div class="navbar-left" @click="$emit('navbar')">
+            <div class="navbar-left" @click="$emit('navbar')"> <!--закрытие навбара и увеличение app-content-->
                 <a href="#">
                   <i class="material-icons black-text">dehaze</i>
                 </a>
-                <span class="black-text">{{date | date}}</span>
+                <span class="black-text">{{date | date}}</span> <!--фильтр даты-->
             </div>
       
             <ul class="right hide-on-small-and-down">
@@ -50,24 +50,24 @@ export default {
   },
   methods: {
     async logout() {
-      await this.$store.dispatch('logout')
-      this.$router.push('/login?message=logout')
+      await this.$store.dispatch('logout') // вызываем экшн который очищает сессию
+      this.$router.push('/login?message=logout') // пушим на страницу логина выводя сообщение
     }
   },
   computed: {
     name() {
-      return this.$store.getters.info
+      return this.$store.getters.info // получаем имя
     }
   },
   mounted() {
-    this.interval = setInterval(() => {
+    this.interval = setInterval(() => { // вызов даты каждую секунду
       this.date = new Date()
     }, 1000)
-    this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
+    this.dropdown = M.Dropdown.init(this.$refs.dropdown, { // инициализация выпадающего меню 
       constrainWidth: true
     })
   },
-  beforeDestroy() {
+  beforeDestroy() { // утечка памяти
     clearInterval(this.interval)
     if (this.dropdown && this.dropdown.destroy) {
       this.dropdown.destroy

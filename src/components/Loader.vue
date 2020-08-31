@@ -1,4 +1,4 @@
-<template>
+<template> <!--кружок загрузки. глобальный компонент-->
   <div class="app-loader">
 		<div class="preloader-wrapper active">
       <div class="spinner-layer" :class="color">
@@ -23,7 +23,7 @@
 		computed: {
 			color() {
 				const color = ['spinner-red-only', 'spinner-blue-only', 'spinner-green-only']
-				return color[Math.floor(Math.random() * 3)]
+				return color[Math.floor(Math.random() * 3)] // рандомный цвет
 			}
 		}
   }

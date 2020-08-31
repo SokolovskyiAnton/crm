@@ -1,6 +1,6 @@
 <template>
     <div class="app-main-layout">
-      <Navbar @navbar="isOpen = !isOpen"/>
+      <Navbar @navbar="isOpen = !isOpen"/> <!--закрытие навбара и увеличение app-content-->
       <Sidebar v-model="isOpen"/>
 
       <main class="app-content" :class="{full: !isOpen}">
@@ -28,7 +28,7 @@ export default {
     }
   },
   async mounted() {
-    if(!Object.keys(this.$store.getters.info).length) {
+    if(!Object.keys(this.$store.getters.info).length) { // проверка на наличие геттера инфо в котором находится имя
       await this.$store.dispatch('fetchInfo')
     }
   },

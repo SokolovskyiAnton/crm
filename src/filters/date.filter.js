@@ -1,4 +1,4 @@
-export default function dateFilter(value) {
+export default function dateFilter(value) { // фильтр времени в навбаре
     const options = {
         day: '2-digit',
         month: 'long', 

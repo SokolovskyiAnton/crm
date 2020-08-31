@@ -6,7 +6,7 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
-    meta: {layout: 'main'},
+    meta: {layout: 'main'}, // Добавление нужного префикса макета
     name: 'Home',
     component: () => import('../views/Home.vue')
   },

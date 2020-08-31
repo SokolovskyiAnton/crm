@@ -36,17 +36,17 @@
   export default {
     data() {
       return {
-        currencies: ['UAH', 'EUR', 'USD']
+        currencies: ['UAH', 'EUR', 'USD'] // ключи этого массива и кличи массива rates совпадают
       }
     },
-    props: ['rates', 'date'],
+    props: ['rates', 'date'], // валюты и дата
     computed: {
       usd() {
-        const usd = this.eur/this.rates.USD
-        return usd.toFixed(2)
+        const usd = this.eur/this.rates.USD // получаю курс гривна/доллар
+        return usd.toFixed(2) // оставляю две цифры после запятой
       },
       eur() {
-        const eur = this.rates.EUR*this.rates.UAH
+        const eur = this.rates.EUR*this.rates.UAH // получаю курс гривна/евро
         return eur.toFixed(2)
       }
     }

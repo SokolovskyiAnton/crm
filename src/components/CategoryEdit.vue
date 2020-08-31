@@ -52,13 +52,13 @@ import { required, minValue } from 'vuelidate/lib/validators'
         current: null
       }
     },
-    props: ['categories'],
+    props: ['categories'], // массив категорий
     mounted() {
-      this.select = M.FormSelect.init(this.$refs.select)
-      M.updateTextFields()
+      this.select = M.FormSelect.init(this.$refs.select) // иницализация селекта
+      M.updateTextFields() // фикс плавающего плейсхолдера
       
     },
-    created() {
+    created() {  // при создании страницы заргужаем  в option данные для отрисовки
       const {id, title, limit} = this.categories[0]
       this.current = id
       this.title = title
@@ -76,16 +76,16 @@ import { required, minValue } from 'vuelidate/lib/validators'
             title: this.title,
             limit: this.limit
           }
-          await this.$store.dispatch('updateCategory', categoryData)
+          await this.$store.dispatch('updateCategory', categoryData) // обновляем категорию
           this.$message('Категория успешно обновлена.')
-          this.$emit('updated', categoryData)
+          this.$emit('updated', categoryData) // передаем на слушатель события объект
         } catch (e) {
           
         }
       }
     },
     watch: {
-      current(catId) {
+      current(catId) { // следит за изменением id и меняет поля
         const {title, limit} = this.categories.find(c => c.id === catId)
         this.title = title
         this.limit = limit
@@ -95,7 +95,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
       title: {required},
       limit: {minValue: minValue(10)}
     },
-    destroyed() {
+    destroyed() { // утечка памяти
       if (this.select && this.select.destroy) {
         this.select.destroy()
       }

@@ -8,7 +8,7 @@
         </div>
         <Loader v-if="loading"/>
         <div class="row" v-else>
-          <HomeBill :rates="currency.rates"/>
+          <HomeBill :rates="currency.rates"/> <!--передаем валюты в компоненты-->
           <HomeCurrency :rates="currency.rates" :date="currency.date"/>
         </div>
     </div>
@@ -33,8 +33,8 @@ export default {
     }
   },
   async mounted() {
-    this.currency = await this.$store.dispatch('fetchCurrency')
-    this.loading = false
+    this.currency = await this.$store.dispatch('fetchCurrency') // получаем курс валют
+    this.loading = false // если получили, то крудок пропадает
   },
   components: {
     HomeBill, HomeCurrency

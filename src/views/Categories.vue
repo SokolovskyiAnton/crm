@@ -6,10 +6,10 @@
         <section>
           <Loader v-if="loading"/>
           <div v-else class="row">
-            <CategoryCreate @created="addNewCategory" />
+            <CategoryCreate @created="addNewCategory" /> <!--при добавлении категории, в метод передаются поля title, limit и уникальный id-->
 
             <CategoryEdit v-if="categories.length" :categories="categories" @updated="updatedCategory" :key="categories.length + updateCount"/>
-            <p v-else class="center">Категорий пока нет</p>
+            <p v-else class="center">Категорий пока нет</p> <!--передаем в пропс массив категорий, а также слушаем событие изменения категории-->
           </div>
         </section>
     </div>
@@ -31,10 +31,10 @@ export default {
     CategoryCreate, CategoryEdit
   },
   methods: {
-    addNewCategory(categor) {
+    addNewCategory(categor) { // пушим в массив категорию
       this.categories.push(categor)
     },
-    updatedCategory(category) {
+    updatedCategory(category) { // обновляем категорию
       const idx = this.categories.findIndex(c => c.id === category.id)
       this.categories[idx].title = category.title
       this.categories[idx].limit = category.limit
@@ -42,7 +42,7 @@ export default {
     }
   },
   async mounted() {
-    this.categories = await this.$store.dispatch('fetchCategories')
+    this.categories = await this.$store.dispatch('fetchCategories') // получаем с firebase категории
     this.loading = false
   }
 }

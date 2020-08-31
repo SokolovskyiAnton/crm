@@ -35,7 +35,7 @@ export default new Vuex.Store({
     async register({dispatch, commit}, {email, password, name}) {
       try {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
-        const uid = await dispatch('getUid')
+        const uid = await dispatch('getUid') // находим подлюченого пользователя
         await firebase.database().ref(`/users/${uid}/info`).set({
           name,
           bill: 10000
@@ -85,7 +85,7 @@ export default new Vuex.Store({
 
       const cats = []
 
-      Object.keys(categories).forEach(key => {
+      Object.keys(categories).forEach(key => { //перебираем ответ от базы данных создавая массив с индексами от 0
         cats.push({
           title: categories[key].title,
           limit: categories[key].limit,
@@ -97,7 +97,7 @@ export default new Vuex.Store({
     async updateCategory({dispatch, commit}, {id, title, limit}) {
       try {
         const uid = await dispatch('getUid')
-        await firebase.database().ref(`/users/${uid}/categories`).child(id).update({title, limit})
+        await firebase.database().ref(`/users/${uid}/categories`).child(id).update({title, limit}) // обновление данных
       } catch (e) {
         commit('setError', e)
         throw e

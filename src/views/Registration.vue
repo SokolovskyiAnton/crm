@@ -4,7 +4,7 @@
           <span class="card-title">Домашняя бухгалтерия</span>
           <div class="input-field">
             <input
-                :class="{invalid: $v.email.$error}" 
+                :class="{invalid:$v.email.$dirty && $v.email.$error}" 
                 id="email"
                 type="text"
                 v-model="email"
@@ -19,7 +19,7 @@
           </div>
           <div class="input-field">
             <input
-                :class="{invalid: $v.password.$error}" 
+                :class="{invalid:$v.password.$dirty && $v.password.$error}" 
                 id="password"
                 type="password"
                 v-model="password"
@@ -34,7 +34,7 @@
           </div>
           <div class="input-field">
             <input
-                :class="{invalid: $v.name.$error}" 
+                :class="{invalid:$v.name.$dirty && $v.name.$error}" 
                 id="name"
                 type="text"
                 v-model="name"

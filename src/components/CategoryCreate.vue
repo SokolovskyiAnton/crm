@@ -68,7 +68,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
         this.limit = 10
         this.$v.$reset()
         this.$message('Категория была создана')
-        this.$emit('created', category)
+        this.$emit('created', category) // передеча в слушатель новой категории
         } catch (e) {
           
         }

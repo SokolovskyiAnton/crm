@@ -5,7 +5,7 @@
         <div class="input-field">
           <input
               
-              :class="{invalid: $v.email.$error}" 
+              :class="{invalid:$v.email.$dirty && $v.email.$error}" 
               id="email"
               type="text"
               v-model="email"
@@ -22,7 +22,7 @@
         <div class="input-field">
           <input
               
-              :class="{invalid: $v.password.$error}" 
+              :class="{invalid:$v.password.$dirty && $v.password.$error}" 
               id="password"
               type="password"
               v-model="password"
@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators' // валидатор
 
-import messages from '../utils/messages'
+import messages from '../utils/messages' // импорт сообщений об ошибках
 
 export default {
   data() {
@@ -73,7 +73,7 @@ export default {
       password: { required, minLength: minLength(6) }
   },
   methods: {
-    async onSubmit() {
+    async onSubmit() { // проверяем есть ли невалидные поля и возвращаем 
       if (this.$v.$invalid) {
           this.$v.$touch()
           return
@@ -83,12 +83,12 @@ export default {
         password: this.password
       }
       try {
-        await this.$store.dispatch('login', formData)
-        this.$router.push('/')
+        await this.$store.dispatch('login', formData) // передаем объект с данными в экшн логин
+        this.$router.push('/') // если удачно пушим в хоум
       } catch(e) {}
     }
   },
-  mounted() {
+  mounted() { // если в файлах об ошибках есть logout, то выводим в плагине
     if (messages[this.$route.query.message]) {
       this.$message(messages[this.$route.query.message])
     }
