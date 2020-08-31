@@ -57,7 +57,6 @@ import { required, minValue } from 'vuelidate/lib/validators'
       async submitHandler() {
         if (this.$v.$invalid) {
           this.$v.$touch()
-          console.log(this.$v);
           return
         }
         try {
