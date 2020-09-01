@@ -58,7 +58,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
       M.updateTextFields() // фикс плавающего плейсхолдера
       
     },
-    created() {  // при создании страницы заргужаем  в option данные для отрисовки
+    created() {  // при загрузке страницы заргужаем  в option данные для отрисовки
       const {id, title, limit} = this.categories[0]
       this.current = id
       this.title = title
