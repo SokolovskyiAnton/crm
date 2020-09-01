@@ -102,7 +102,27 @@ export default new Vuex.Store({
         commit('setError', e)
         throw e
       }
-    } 
+    },
+    async createRecord({dispatch, commit}, record) {
+      try {
+        const uid = await dispatch('getUid')
+        return await firebase.database().ref(`/users/${uid}/records`).push(record)
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
+    },
+    async updateInfo({dispatch, commit, getters}, bill) {
+      try {
+        const uid = await dispatch('getUid')
+        const updateData = {...getters.info, ...bill} // с помощью spread оператора делаю замену поля bill
+        await firebase.database().ref(`/users/${uid}/info`).update(updateData)
+        commit('setInfo', updateData)
+      } catch (error) {
+        commit('setError', e)
+        throw e
+      }
+    }
   },
   getters: {
     error: s => s.error,

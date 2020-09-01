@@ -66,7 +66,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
         })
         this.title = ''
         this.limit = 10
-        this.$v.$reset()
+        this.$v.$reset() // ресет полей формы
         this.$message('Категория была создана')
         this.$emit('created', category) // передеча в слушатель новой категории
         } catch (e) {

@@ -47,7 +47,7 @@
               :class="{invalid: $v.amount.$dirty && !$v.amount.minValue}"
           >
           <label for="amount">Сумма</label>
-          <span v-if="$v.amount.$dirty && !$v.amount.minValue" class="helper-text invalid">amount пароль</span>
+          <span v-if="$v.amount.$dirty && !$v.amount.minValue" class="helper-text invalid">Минимальный лимит 10 грн.</span>
         </div>
     
         <div class="input-field">
@@ -58,7 +58,7 @@
               :class="{invalid: $v.description.$dirty && !$v.description.required}"
           >
           <label for="description">Описание</label>
-          <span v-if="$v.description.$dirty && !$v.description.required" class="helper-text invalid">description пароль</span>
+          <span v-if="$v.description.$dirty && !$v.description.required" class="helper-text invalid">Введите описание.</span>
         </div>
     
         <button class="btn waves-effect waves-light" type="submit">
@@ -71,12 +71,13 @@
 
 <script>
 import { required, minValue } from 'vuelidate/lib/validators'
+import {mapGetters} from 'vuex' // импорт геттера
 
 export default {
   data() {
     return {
       loading: true,
-      categories: [{id:1, title: '1'}],
+      categories: [],
       select: null,
       current: null,
       type: 'outcome',
@@ -84,11 +85,46 @@ export default {
       description: ''
     }
   },
+  computed: {
+    ...mapGetters(['info']), // получение геттера
+    canCreateRecord() { // проверка на наличие счета
+      if(this.type === 'income') {
+        return true
+      }
+      return this.info.bill >= this.amount
+      debugger
+    }
+  },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       if (this.$v.$invalid) {
           this.$v.$touch()
           return
+      }
+
+      if (this.canCreateRecord) {
+        try {
+          await this.$store.dispatch('createRecord', {
+            recordId: this.current,
+            amount: this.amount,
+            description: this.description,
+            type: this.type,
+            date: new Date().toJSON()
+          })
+          const bill = this.type === 'income' // если доход, то добавить деньги к счете и наоборот
+            ? this.info.bill + this.amount
+            : this.info.bill - this.amount
+
+          await this.$store.dispatch('updateInfo', {bill})
+
+          this.$message('Запись успешно создана.')
+          this.$v.$reset()
+          this.amount = 10
+          this.description = ''
+
+        } catch (e) {}
+      } else {
+        this.$message(`Недостаточно средств на счете - ${this.amount - this.info.bill} грн.`)
       }
     }
   },
@@ -104,7 +140,7 @@ export default {
       this.current = this.categories[0].id
     }
     
-    setTimeout(() => {
+    setTimeout(() => {  // хак позволяющий подгузить плагин селекта
       this.select = M.FormSelect.init(this.$refs.select)
       M.updateTextFields()
     }, 0)
