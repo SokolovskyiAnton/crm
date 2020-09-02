@@ -12,7 +12,7 @@
             <strong>{{cat.title}}</strong>
             {{cat.spend | currency}} из {{cat.limit | currency}}
           </p>
-          <div class="progress" >
+          <div class="progress" v-tooltip="cat.tooltip">
             <div
                 class="determinate"
                 :class="cat.progressColor"
@@ -27,6 +27,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import currencyFilter from '../filters/currencies.filter'
 export default {
   data() {
     return {
@@ -38,31 +39,32 @@ export default {
     ...mapGetters(['info'])
   },
   async mounted() {
-    const records = await this.$store.dispatch('fetchRecords')
+    const records = await this.$store.dispatch('fetchRecords') // получаем рекорд и категории из бд
     const categories = await this.$store.dispatch('fetchCategories')
     
-    this.categories = categories.map(cat => {
+    this.categories = categories.map(cat => { // заносим в массив categories новый массив
       const spend = records
-        .filter(r => r.recordId === cat.id)
-        .filter(r => r.type === 'outcome')
+        .filter(r => r.recordId === cat.id) // нахожим нужную категорию
+        .filter(r => r.type === 'outcome') // проверяем тип траты
         .reduce((total, record) => {
-          return total += +record.amount
+          return total += +record.amount // суммируем
         }, 0)
-      const percent = 100 * spend / cat.limit
-      const progresPercent = percent > 100 ? 100 : percent
+      const percent = 100 * spend / cat.limit // процент потраченого лимита 
+      const progresPercent = percent > 100 ? 100 : percent // проверка для зашиты врестки
       const progressColor = percent < 60 ? 'green' : percent < 100 ? 'yellow' : 'red'
+
+      const tooltipValue = cat.limit - spend
+      const tooltip = `${tooltipValue < 0 ? 'Превышение на': 'Осталось'} ${currencyFilter(tooltipValue)}`
       return {
         ...cat,
         progresPercent,
         progressColor,
-        spend
+        spend,
+        tooltip
       }
     }) 
 
-    console.log(this.categories);
     this.loading = false
-
-
   }
 }
 </script>
