@@ -122,6 +122,30 @@ export default new Vuex.Store({
         commit('setError', e)
         throw e
       }
+    },
+    async fetchRecords({dispatch, commit}) {
+      try {
+        const uid = await dispatch('getUid')
+        const records = (await firebase.database().ref(`/users/${uid}/records`).once('value')).val() || {}
+
+        const rec = []
+
+        Object.keys(records).forEach(key => { //перебираем ответ от базы данных создавая массив с индексами от 0
+          rec.push({
+            amount: records[key].amount,
+            date: records[key].date,
+            description: records[key].description,
+            date: records[key].date,
+            recordId: records[key].recordId,
+            type: records[key].type,
+            id: key
+          })
+      })
+      return rec
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
     }
   },
   getters: {
