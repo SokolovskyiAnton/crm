@@ -22,7 +22,7 @@
                 value="income"
                 v-model="type"
             />
-            <span>Доход</span>
+            <span><strong>Доход</strong></span>
           </label>
         </p>
     
@@ -35,7 +35,7 @@
                 value="outcome"
                 v-model="type"
             />
-            <span>Расход</span>
+            <span><strong>Расход</strong></span>
           </label>
         </p>
     

@@ -55,7 +55,7 @@ Vue.use(VueRouter)
     component: () => import('../views/History.vue')
   },
   {
-    path: '/detail',
+    path: '/detail/:id',
     meta: {layout: 'main', auth: true},
     name: 'detail',
     component: () => import('../views/Detail.vue')
