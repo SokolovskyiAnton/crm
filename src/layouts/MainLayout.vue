@@ -20,6 +20,7 @@
 <script>
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
+import messages from '../utils/messages' // список ошибок
 export default {
   name: 'main-layout',
   data() {
@@ -34,6 +35,16 @@ export default {
   },
   components: {
     Navbar, Sidebar
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error // геттр с ошибками
+    }
+  },
+  watch: {
+    error(err) {
+      this.$error(messages[err.code] || 'Что-то пошло не так') // при изменении геттера вызывается плагин эррор
+    }
   }
 }
 </script>

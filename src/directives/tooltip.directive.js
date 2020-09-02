@@ -1,4 +1,4 @@
-export default {
+export default { // создание всплыающего сообщения при наведении с помощью дерективы
     bind(el, {value}) {
         M.Tooltip.init(el, {html: value})
     },
