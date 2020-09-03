@@ -30,7 +30,7 @@
 <script>
 import HistoryTable from '../components/HistoryTable'
 import paginationMixin from '../mixins/pagination.mixin'
-import {Pie} from 'vue-chartjs'
+import {Pie} from 'vue-chartjs' // график vue-chart
 export default {
   data() {
     return {
