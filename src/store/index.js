@@ -96,7 +96,7 @@ export default new Vuex.Store({
     },
     async fetchCategoryById({dispatch,commit}, id) {
       const uid = await dispatch('getUid')
-      const category = (await firebase.database().ref(`/users/${uid}/categories`).child(id).once('value')).val() || {}
+      const category = (await firebase.database().ref(`/users/${uid}/categories`).child(id).once('value')).val() || {} // получение одной категории по переданному id
 
       
       return {
@@ -160,7 +160,7 @@ export default new Vuex.Store({
     async fetchRecordById({dispatch, commit}, id) {
       try {
         const uid = await dispatch('getUid')
-        const record = (await firebase.database().ref(`/users/${uid}/records`).child(id).once('value')).val() || {}
+        const record = (await firebase.database().ref(`/users/${uid}/records`).child(id).once('value')).val() || {} // получение одной записи по переданному id
 
        
         return {

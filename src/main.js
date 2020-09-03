@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuelidate from 'vuelidate'
+import Paginate from 'vuejs-paginate'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
@@ -24,6 +25,7 @@ Vue.filter('date', dateFilter)
 Vue.filter('currency', currencyFilter)
 Vue.directive('tooltip', tooltipDirective) // регистрация тултипа глобально
 Vue.component('Loader', Loader)
+Vue.component('Paginate', Paginate) // компонент пагинации страниц
  
 firebase.initializeApp({
   apiKey: "AIzaSyDuF4c29-voe_kx0yzkc61qA7LzXZw2bfg",
