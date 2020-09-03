@@ -94,6 +94,16 @@ export default new Vuex.Store({
       })
       return cats
     },
+    async fetchCategoryById({dispatch,commit}, id) {
+      const uid = await dispatch('getUid')
+      const category = (await firebase.database().ref(`/users/${uid}/categories`).child(id).once('value')).val() || {}
+
+      
+      return {
+        ...category,
+        id
+      }
+    },
     async updateCategory({dispatch, commit}, {id, title, limit}) {
       try {
         const uid = await dispatch('getUid')
@@ -142,6 +152,21 @@ export default new Vuex.Store({
           })
       })
       return rec
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
+    },
+    async fetchRecordById({dispatch, commit}, id) {
+      try {
+        const uid = await dispatch('getUid')
+        const record = (await firebase.database().ref(`/users/${uid}/records`).child(id).once('value')).val() || {}
+
+       
+        return {
+          ...record,
+          id
+        }
       } catch (e) {
         commit('setError', e)
         throw e

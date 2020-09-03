@@ -45,7 +45,6 @@ export default {
     this.categories = categories.map(cat => { // заносим в массив categories новый массив
       const spend = records
         .filter(r => r.recordId === cat.id) // нахожим нужную категорию
-        .filter(r => r.type === 'outcome') // проверяем тип траты
         .reduce((total, record) => {
           return total += +record.amount // суммируем
         }, 0)
@@ -54,7 +53,7 @@ export default {
       const progressColor = percent < 60 ? 'green' : percent < 100 ? 'yellow' : 'red'
 
       const tooltipValue = cat.limit - spend
-      const tooltip = `${tooltipValue < 0 ? 'Превышение на': 'Осталось'} ${currencyFilter(tooltipValue)}`
+      const tooltip = `${tooltipValue < 0 ? 'Превышение на': 'Осталось'} ${currencyFilter(Math.abs(tooltipValue))}`
       return {
         ...cat,
         progresPercent,

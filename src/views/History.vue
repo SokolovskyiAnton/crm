@@ -31,7 +31,7 @@ export default {
   async mounted() {
     const records = await this.$store.dispatch('fetchRecords') 
     this.categories = await this.$store.dispatch('fetchCategories')
-    this.records = records.map(record => {
+    this.records = records.map(record => { // создаем массив с нужными данными для таблицы истории
       return {
         ...record,
         categoryName: this.categories.find(cat => cat.id === record.recordId).title,
