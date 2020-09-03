@@ -1,3 +1,4 @@
+import store from '../store'
 export default function dateFilter(value) { // фильтр времени в навбаре
     const options = {
         day: '2-digit',
@@ -7,5 +8,6 @@ export default function dateFilter(value) { // фильтр времени в н
         minute: '2-digit',
         second: '2-digit'
     }
-    return Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
+    const locale = store.getters.info.locale
+    return Intl.DateTimeFormat(locale, options).format(new Date(value))
 }

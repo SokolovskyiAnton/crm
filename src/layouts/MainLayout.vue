@@ -1,7 +1,7 @@
 <template>
     <div class="app-main-layout">
       <Navbar @navbar="isOpen = !isOpen"/> <!--закрытие навбара и увеличение app-content-->
-      <Sidebar v-model="isOpen"/>
+      <Sidebar v-model="isOpen" :key="localize"/>
 
       <main class="app-content" :class="{full: !isOpen}">
         <div class="app-page">
@@ -39,6 +39,9 @@ export default {
   computed: {
     error() {
       return this.$store.getters.error // геттр с ошибками
+    },
+    localize() {
+      return this.$store.getters.info.locale
     }
   },
   watch: {

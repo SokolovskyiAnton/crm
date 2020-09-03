@@ -1,7 +1,7 @@
 <template>
     <form class="card auth-card" @submit.prevent="onSubmit">
         <div class="card-content">
-          <span class="card-title">Домашняя бухгалтерия</span>
+          <span class="card-title">{{'Home bookkeeping' | localize}}</span>
           <div class="input-field">
             <input
                 :class="{invalid:$v.email.$dirty && $v.email.$error}" 
@@ -9,12 +9,12 @@
                 type="text"
                 v-model="email"
             >
-            <label for="email">Электронный адрес</label>
+            <label for="email">{{'Email' | localize}}</label>
             <div v-if="$v.email.$dirty && !$v.email.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
-                Введите адрес электронной почты.
+                {{'Invalid_email_1' | localize}}
             </div>
             <div v-if="$v.email.$dirty && !$v.email.email" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
-                  Адрес электронной почты введен некорректно.
+                  {{'Invalid_email_2' | localize}}
             </div>
           </div>
           <div class="input-field">
@@ -24,12 +24,12 @@
                 type="password"
                 v-model="password"
             >
-            <label for="password">Пароль</label>
+            <label for="password">{{'Password' | localize}}</label>
             <div v-if="$v.password.$dirty && !$v.password.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
-                Введите пароль.
+                {{'Enter password' | localize}}
             </div>
             <div v-if="$v.password.$dirty && !$v.password.minLength" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
-                  Пароль должен состоять минимум из 6 символов.
+                  {{'Invalid_Password_Long' | localize}}
             </div>
           </div>
           <div class="input-field">
@@ -40,9 +40,9 @@
                 v-model="name"
             >
             <div v-if="$v.name.$dirty && !$v.name.required" class="invalid-feedback" style="min-height: 18px;display: block;font-size: 12px;color: #f44336">
-                Введите имя.
+                {{'Enter name' | localize}}
             </div>
-            <label for="name">Имя</label>
+            <label for="name">{{'Name' | localize}}</label>
 
           </div>
           
@@ -53,14 +53,14 @@
                 class="btn waves-effect waves-light auth-submit"
                 type="submit"
             >
-              Зарегистрироваться
+              {{'Register' | localize}}
               <i class="material-icons right">send</i>
             </button>
           </div>
       
           <p class="center">
-            Уже есть аккаунт?
-            <router-link to="/login">Нажмите здесь</router-link>
+            {{'Already have an account' | localize}}
+            <router-link to="/login">{{'Press here' | localize}}</router-link>
           </p>
         </div>
     </form>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="page-title">
-          <h3>Категории</h3>
+          <h3>{{'Category' | localize}}</h3>
         </div>
         <section>
           <Loader v-if="loading"/>
@@ -9,7 +9,7 @@
             <CategoryCreate @created="addNewCategory" /> <!--при добавлении категории, в метод передаются поля title, limit и уникальный id-->
 
             <CategoryEdit v-if="categories.length" :categories="categories" @updated="updatedCategory" :key="categories.length + updateCount"/>
-            <p v-else class="center">Категорий пока нет</p> <!--передаем в пропс массив категорий, а также слушаем событие изменения категории-->
+            <p v-else class="center">{{'NoCategories'| localize}}</p> <!--передаем в пропс массив категорий, а также слушаем событие изменения категории-->
           </div>
         </section>
     </div>

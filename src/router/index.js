@@ -14,7 +14,7 @@ Vue.use(VueRouter)
   },
   {
     path: '/registration',
-    meta: {layout: 'empty', auth: true},
+    meta: {layout: 'empty'},
     name: 'registration',
     component: () => import('../views/Registration.vue')
   },

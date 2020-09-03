@@ -38,7 +38,8 @@ export default new Vuex.Store({
         const uid = await dispatch('getUid') // находим подлюченого пользователя
         await firebase.database().ref(`/users/${uid}/info`).set({
           name,
-          bill: 10000
+          bill: 10000,
+          locale: 'ru-RU'
         })
       } catch(e) {
         commit('setError', e)

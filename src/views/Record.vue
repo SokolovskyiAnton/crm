@@ -1,16 +1,16 @@
 <template>
     <div>
       <div class="page-title">
-        <h3>Новая запись</h3>
+        <h3>{{'NewRecord' | localize}}</h3>
       </div>
       <Loader v-if="loading"/>
-      <p v-else-if="!categories.length" class="center">Категорий пока нет. <router-link to="/categories">Добавить новую категорию.</router-link></p>
+      <p v-else-if="!categories.length" class="center">{{'NoCategories' | localize}}. <router-link to="/categories">{{'AddNewCategory' | localize}}</router-link></p>
       <form v-else class="form" @submit.prevent="submitHandler">
         <div class="input-field" >
           <select ref="select" v-model="current">
             <option v-for="cat of categories" :key="cat.id" :value="cat.id">{{cat.title}}</option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{'SelectCat' | localize}}</label>
         </div>
     
         <p>
@@ -22,7 +22,7 @@
                 value="income"
                 v-model="type"
             />
-            <span><strong>Доход</strong></span>
+            <span><strong>{{'Income' | localize}}</strong></span>
           </label>
         </p>
     
@@ -35,7 +35,7 @@
                 value="outcome"
                 v-model="type"
             />
-            <span><strong>Расход</strong></span>
+            <span><strong>{{'Outcome' | localize}}</strong></span>
           </label>
         </p>
     
@@ -46,8 +46,8 @@
               v-model.number="amount"
               :class="{invalid: $v.amount.$dirty && !$v.amount.minValue}"
           >
-          <label for="amount">Сумма</label>
-          <span v-if="$v.amount.$dirty && !$v.amount.minValue" class="helper-text invalid">Минимальный лимит 10 грн.</span>
+          <label for="amount">{{'Sum' | localize}}</label>
+          <span v-if="$v.amount.$dirty && !$v.amount.minValue" class="helper-text invalid">{{'MinLimit' | localize}}</span>
         </div>
     
         <div class="input-field">
@@ -57,12 +57,12 @@
               v-model="description"
               :class="{invalid: $v.description.$dirty && !$v.description.required}"
           >
-          <label for="description">Описание</label>
-          <span v-if="$v.description.$dirty && !$v.description.required" class="helper-text invalid">Введите описание.</span>
+          <label for="description">{{'Description' | localize}}</label>
+          <span v-if="$v.description.$dirty && !$v.description.required" class="helper-text invalid">{{'DescriptionInvalid' | localize}}</span>
         </div>
     
         <button class="btn waves-effect waves-light" type="submit">
-          Создать
+          {{'Create' | localize}}
           <i class="material-icons right">send</i>
         </button>
       </form>
